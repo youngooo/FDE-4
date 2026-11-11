@@ -2,6 +2,12 @@
 
 本仓库提交第四周作业：在真实导出的青禾 CRM 数据上完成字段剖析与字典差异归类，用自写的清洗规则把原始记录适配导入指标库，核对并修订 W03 的 38 项指标，再按「月度会员复购率」链路做实机演示与调优对照。
 
+## 下载提交包
+
+[下载 w04-submit.zip](submission/w04-submit.zip) · [SHA256](submission/SHA256SUMS.txt)
+
+ZIP 按仓库原路径打包 `customer/w04/`、`docs/w04/`、`artifacts/w04/` 三层，共 98 个文件；仓库中的成果文件与 ZIP 为同一版本，README 与 Git 配置是仓库导航附件。
+
 ## 阅读入口
 
 | 内容 | 文件 |
@@ -45,12 +51,6 @@
 **预检。** [precheck-v1.json](artifacts/w04/precheck-v1.json) 80 项全部通过（`passed: true`、`manual_review_required: true`）。
 
 六项付费月报按 P1 暂定口径验证，书面业务确认仍待取得；以上工程结果不代表教师验收、业务核定或生产上线批准。
-
-## 下载提交包
-
-[下载 w04-submit.zip](submission/w04-submit.zip) · [SHA256](submission/SHA256SUMS.txt)
-
-ZIP 按仓库原路径打包 `customer/w04/`、`docs/w04/`、`artifacts/w04/` 三层，共 98 个文件；仓库中的成果文件与 ZIP 为同一版本，README 与 Git 配置是仓库导航附件。
 
 ## 复跑条件
 
