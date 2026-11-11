@@ -1,0 +1,10 @@
+{
+  "status": "error",
+  "code": "MODEL_TIMEOUT",
+  "reason": "本次调用未完成，请查看运行记录；不能把失败当成零。",
+  "question": "2026年9月，青禾会员的月内复购率是多少？",
+  "trace_id": "849bafa6-f5ab-4c18-87fa-75ba39d24ad9",
+  "elapsed_seconds": 184.208,
+  "model_usage": {},
+  "model_calls_with_usage": 0
+}

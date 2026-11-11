@@ -1,0 +1,26 @@
+{
+  "status": "unsupported",
+  "reason": "请求包含 2026 年 9 月，但数据覆盖截止到 2026-09-01（不含），因此 2026 年 9 月不是完整自然月且无数据；月内复购率仅支持完整自然月、全门店口径，不能替换请求日期或返回不完整月份。",
+  "intent": {
+    "status": "unsupported",
+    "reason": "请求包含 2026 年 9 月，但数据覆盖截止到 2026-09-01（不含），因此 2026 年 9 月不是完整自然月且无数据；月内复购率仅支持完整自然月、全门店口径，不能替换请求日期或返回不完整月份。",
+    "metrics": [
+      "monthly_repeat_rate"
+    ],
+    "start": "2026-08-01",
+    "end": "2026-10-01",
+    "group_by": [
+      "metric_time__month"
+    ],
+    "filters": []
+  },
+  "question": "青禾会员 2026年8月和2026年9月 每月的月内复购率分别是多少？",
+  "trace_id": "95536fc5-0341-4ab0-a8f4-ec56d5095898",
+  "elapsed_seconds": 5.264,
+  "model_usage": {
+    "prompt_tokens": 19908,
+    "completion_tokens": 568,
+    "total_tokens": 20476
+  },
+  "model_calls_with_usage": 1
+}

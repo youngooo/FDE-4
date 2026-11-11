@@ -1,0 +1,89 @@
+{
+  "status": "ok",
+  "intent": {
+    "metrics": [
+      "monthly_repeat_rate"
+    ],
+    "start": "2025-09-01",
+    "end": "2026-09-01",
+    "group_by": [
+      "metric_time__month"
+    ],
+    "filters": []
+  },
+  "sql": "SELECT\n  metric_time__month\n  , CAST(monthly_repeat_buyer_count AS DOUBLE) / CAST(NULLIF(monthly_buyer_count, 0) AS DOUBLE) AS monthly_repeat_rate\nFROM (\n  SELECT\n    metric_time__month\n    , SUM(__monthly_repeat_buyer_count) AS monthly_repeat_buyer_count\n    , SUM(__monthly_buyer_count) AS monthly_buyer_count\n  FROM (\n    SELECT\n      DATE_TRUNC('month', month_start) AS metric_time__month\n      , CASE WHEN valid_order_count >= 1 THEN 1 ELSE 0 END AS __monthly_buyer_count\n      , CASE WHEN valid_order_count >= 2 THEN 1 ELSE 0 END AS __monthly_repeat_buyer_count\n    FROM \"data\".\"main\".\"monthly_member_activity\" monthly_member_model_src_10000\n    WHERE DATE_TRUNC('month', month_start) BETWEEN '2025-09-01' AND '2026-08-31'\n  ) subq_6\n  GROUP BY\n    metric_time__month\n) subq_8",
+  "columns": [
+    "metric_time__month",
+    "monthly_repeat_rate"
+  ],
+  "rows": [
+    [
+      "2026-01-01 00:00:00",
+      0.14604966139954853
+    ],
+    [
+      "2026-06-01 00:00:00",
+      0.12929593163663386
+    ],
+    [
+      "2026-08-01 00:00:00",
+      0.11803398501735794
+    ],
+    [
+      "2026-02-01 00:00:00",
+      0.14084223252065284
+    ],
+    [
+      "2025-09-01 00:00:00",
+      0.16725978647686832
+    ],
+    [
+      "2026-07-01 00:00:00",
+      0.1136986301369863
+    ],
+    [
+      "2026-05-01 00:00:00",
+      0.13046937151949084
+    ],
+    [
+      "2025-12-01 00:00:00",
+      0.15120113047574188
+    ],
+    [
+      "2026-03-01 00:00:00",
+      0.14273630788750263
+    ],
+    [
+      "2025-11-01 00:00:00",
+      0.1533457249070632
+    ],
+    [
+      "2026-04-01 00:00:00",
+      0.1436943781202518
+    ],
+    [
+      "2025-10-01 00:00:00",
+      0.15957978989494748
+    ]
+  ],
+  "seconds": 0.112,
+  "units": {
+    "monthly_repeat_rate": "ratio"
+  },
+  "data_version": "qinghe-w04-v1.1",
+  "data_sha256": "a1b1323b26b4d380c6b0153586effc0bb47ba9a93a7a1d246e6b0c6ee53b0803",
+  "catalog_sha256": "11efcad6463608c0b78dd411f3e137d7de527b0c35bc2153d5e2bb588dbbfea8",
+  "coverage_notes": {
+    "source": "本次只含新 CRM 导出的会员、订单、会员卡、门店四个文件；旧收银系统消费记录未导出，小林工作账只用于对照核查，不导入查询库。",
+    "time_range": {
+      "start": "2024-09-01",
+      "end_exclusive": "2026-09-01"
+    },
+    "quarantined": {
+      "shop": 0,
+      "member": 3,
+      "order": 256,
+      "card": 299
+    }
+  }
+}

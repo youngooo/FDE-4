@@ -1,0 +1,8 @@
+{
+  "public_fixture": "examples/w04/public-check",
+  "commands": {
+    "profile": ["{python}", "{root}/tools/w04.py", "profile", "--source", "{source}", "--dictionary", "{dictionary}", "--code", "customer/w04/solution.py", "--output", "{output}", "--data-version", "{data_version}"],
+    "adapt": ["{python}", "{root}/tools/w04.py", "adapt", "--source", "{source}", "--rules", "artifacts/w04/cleaning_rules.yaml", "--code", "customer/w04/solution.py", "--output", "{output}", "--library", "{root}/examples/w03/library", "--project", "{project}"],
+    "reconcile": ["{python}", "{root}/tools/w04.py", "reconcile", "--run", "{run}", "--first", "{first}", "--second", "{second}", "--code", "customer/w04/solution.py", "--output", "{output}"]
+  }
+}

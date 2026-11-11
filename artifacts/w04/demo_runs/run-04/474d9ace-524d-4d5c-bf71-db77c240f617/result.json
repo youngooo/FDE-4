@@ -1,0 +1,10 @@
+{
+  "status": "error",
+  "code": "MODEL_NETWORK_ERROR",
+  "reason": "本次调用未完成，请查看运行记录；不能把失败当成零。",
+  "question": "青禾 2026年8月15日到2026年9月15日 期间的购买会员数是多少？",
+  "trace_id": "474d9ace-524d-4d5c-bf71-db77c240f617",
+  "elapsed_seconds": 7.976,
+  "model_usage": {},
+  "model_calls_with_usage": 0
+}

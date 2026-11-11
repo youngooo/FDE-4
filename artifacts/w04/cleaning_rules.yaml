@@ -1,0 +1,41 @@
+contract_version: w04-0.1.0
+data_version: qinghe-w04-v1.1
+tag_cleaning:
+  delimiters: [',', '，', ';', '/', ' ']
+  legal_tags_source: tags.txt
+  hyphenated_tag_handling: 先按完整取值匹配 tags.txt 的合法标签，命中即整条保留（如 母婴-0到3岁）；连字符是标签或备注正文的一部分，不是分隔符，也不凭形状判为备注
+  unknown_tag_handling: 命中 tags.txt 的进 member_tags；其余各段一律整条保留为备注进 member_notes，不删除、不新增为标签；未经客户确认的暂定标签在诊断报告中列为待核
+  note_extraction: tag 列混写标签与备注、写法不统一。按 delimiters 切分后逐段判断：命中 tags.txt 的为标签；其余每段按完整一条保留为备注，记录来源文件、来源字段、记录序号与原值 raw_text，不再按段内标点切碎；以 勿打电话/勿发短信 开头（后跟原因）的判为触达限制备注，整条保留不丢
+invalid_values:
+  - source_fields: [birth]
+    values: ['', 'NULL', '-', '无']
+    action: 转为空值，不参与派生
+    reason: 生日列混用四种未填写写法，均视为缺失
+  - source_fields: [stop_dt]
+    values: ['', 'NULL', '-', '无']
+    action: 转为空值，视为未提前终止
+    reason: 会员卡提前终止日期混用四种未填写写法
+  - source_fields: [tag]
+    values: ['', 'NULL', '-', '无']
+    action: 视为空，不产出标签或备注
+    reason: 标签列用这些写法表示未填写
+  - source_fields: [nm, reg_dev]
+    values: ['', 'NULL', '-', '无']
+    action: 保留原值（这两列不进查询库）
+    reason: 姓名与注册设备标识存在未填写写法，原文完整保留
+abnormal_records:
+  - {rule_id: amount_yuan, condition: 金额字段为元、带两位小数（字典声明整数分）, action: normalize, reason_code: YUAN_TO_CENTS, evidence: crm_order_export.csv 与 crm_card_export.csv 金额列；老周第 1 场 MSG-05076}
+  - {rule_id: date_multiformat, condition: join_dt 混用 ISO、斜杠、无分隔三种写法, action: normalize, reason_code: DATE_NORMALIZED, evidence: crm_member_export.csv join_dt 列；老周第 1 场 MSG-05086}
+  - {rule_id: store_code_normalize, condition: 门店号含首尾空白或全角字符，关联不上门店表, action: normalize, reason_code: STORE_CODE_NORMALIZED, evidence: crm_shop.csv 第 3050、8493 条等；老周第 1 场 MSG-05088、第 2 场 MSG-05155}
+  - {rule_id: card_kind_alias, condition: card_kind 为 悦享卡（年）即 悦享年卡 改名前的旧叫法, action: normalize, reason_code: CARD_KIND_ALIAS, evidence: crm_card_export.csv card_kind 列 1201 条；陈姐第 1 场 MSG-05113}
+  - {rule_id: exact_duplicate, condition: 全部字段逐字完全相同, action: deduplicate, reason_code: EXACT_DUPLICATE, evidence: crm_order_export.csv 分页拉取页间重复；老周第 1 场}
+  - {rule_id: duplicate_key, condition: 主键相同而内容不同, action: quarantine, reason_code: DUPLICATE_PRIMARY_KEY, evidence: 主键冲突时保留完整原记录待核}
+  - {rule_id: orphan_order, condition: 订单 hy_id 不在会员表, action: quarantine, reason_code: UNLINKED_ACCOUNT, evidence: crm_order_export.csv；老周第 1 场 MSG-05092}
+  - {rule_id: unlinked_store, condition: 会员 reg_shop 或订单 shop_cd 归一化后仍不在门店表, action: quarantine, reason_code: UNLINKED_STORE, evidence: crm_member_export.csv reg_shop、crm_order_export.csv shop_cd；老周第 2 场 MSG-05157}
+  - {rule_id: refund_exceeds_paid, condition: 累计退款金额大于实付金额, action: quarantine, reason_code: REFUND_EXCEEDS_PAID, evidence: crm_order_export.csv；老周第 1/2 场 MSG-05090/05160}
+  - {rule_id: unsupported_card_type, condition: 卡种不在契约支持范围（员工卡不计付费资格）, action: quarantine, reason_code: UNSUPPORTED_CARD_TYPE, evidence: crm_card_export.csv card_kind 员工卡 299 条；陈姐第 1 场 MSG-05113}
+  - {rule_id: invalid_date, condition: 日期无法解析（如 2026-02-30）或为契约外写法, action: quarantine, reason_code: INVALID_DATE, evidence: 解析失败的整条原记录保留}
+raw_preservation:
+  original_files: 原始 CSV 只读保留，manifest 记录文件名与 SHA-256
+  notes: member_notes.csv 逐条保留 source_file、source_row、source_field、raw_text（tag 字段完整原值）与 note_text
+  quarantine: quarantine.csv 保留 record_type、来源文件、记录序号与完整 raw_json

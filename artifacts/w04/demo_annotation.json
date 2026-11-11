@@ -1,0 +1,58 @@
+{
+  "selected_chain": "月度复购率查询与数据来源覆盖说明",
+  "runs": [
+    {
+      "run_path": "demo_runs/run-07/8cda6423-e17e-4520-b32f-4b5e6f0b891c",
+      "bad_case": false,
+      "bad_case_reason": "",
+      "tuning": {
+        "before_run_path": "demo_runs/run-01/e46072b7-4ae6-4bf4-87df-26a9efde509d",
+        "before_bad_case": true,
+        "before_bad_case_reason": "回答只给出 11.80% 并说明统计口径，未依据覆盖说明指出数据来源与时间覆盖边界（只含新 CRM 导出的会员、订单、会员卡、门店四个文件，旧收银系统消费记录未导出，被隔离记录未计入），把部分覆盖下的结果当成整体会员复购水平。",
+        "change_location": "提示词／上下文",
+        "change": "在 customer/w04/answer_prompt.txt 中，把“也不能推断数据覆盖不足。”改为“不能仅凭某个分组未返回就推断数据覆盖不足；但必须依据 data_context 的 coverage_notes，在回答中明确指出本次结果的数据来源与时间覆盖边界（只含新 CRM 导出的会员、订单、会员卡、门店四个文件，旧收银系统消费记录未导出、被隔离记录未计入），把结论限定在已覆盖范围内，不得把该结果当成覆盖范围外的整体经营结论。”",
+        "reason": "回答阶段的上下文里本来就有 coverage_notes，但原提示词只禁止“误推断覆盖不足”，没要求声明本次结果的数据来源与时间边界，部分覆盖下的结论因此被当成整体水平；改为强制声明边界并把结论限定在已覆盖范围内。"
+      }
+    },
+    {
+      "run_path": "demo_runs/run-02/d857cbda-47a3-4f59-b54a-20bfdfcc3628",
+      "bad_case": false,
+      "bad_case_reason": ""
+    },
+    {
+      "run_path": "demo_runs/run-02/849bafa6-f5ab-4c18-87fa-75ba39d24ad9",
+      "bad_case": true,
+      "bad_case_reason": "瞬时故障：模型调用未完成（超时或网络错误），本轮未产生回答；已在同一问题下换目录重跑并得到结果。"
+    },
+    {
+      "run_path": "demo_runs/run-03/95536fc5-0341-4ab0-a8f4-ec56d5095898",
+      "bad_case": true,
+      "bad_case_reason": "请求为 2026年8月和2026年9月分别的月内复购率，2026年8月是完整自然月且在覆盖范围内，却因 2026年9月无数据而整体拒答，未先给出已覆盖月份的结果并说明覆盖边界。"
+    },
+    {
+      "run_path": "demo_runs/run-04/474d9ace-524d-4d5c-bf71-db77c240f617",
+      "bad_case": true,
+      "bad_case_reason": "瞬时故障：模型调用未完成（超时或网络错误），本轮未产生回答；已在同一问题下换目录重跑并得到结果。"
+    },
+    {
+      "run_path": "demo_runs/run-04/7a30a788-3387-4116-9cbe-8ca7f9d5912f",
+      "bad_case": true,
+      "bad_case_reason": "瞬时故障：模型调用未完成（超时或网络错误），本轮未产生回答；已在同一问题下换目录重跑并得到结果。"
+    },
+    {
+      "run_path": "demo_runs/run-04/af692b79-b6ce-4164-8fb2-6b3c90a6dba1",
+      "bad_case": true,
+      "bad_case_reason": "请求窗口只有一部分落在数据覆盖范围内，却被整体拒答：2026-08-15 至 2026-08-31 在覆盖范围内、购买会员数支持非整月窗口，应先给出已覆盖区间的结果并写明覆盖边界，而不是一律 unsupported。"
+    },
+    {
+      "run_path": "demo_runs/run-05/2fac285a-5ed4-45a3-b21f-cc45d849ec34",
+      "bad_case": false,
+      "bad_case_reason": ""
+    },
+    {
+      "run_path": "demo_runs/run-06/477c8e5e-43de-4649-9be2-c9baa2deee1c",
+      "bad_case": false,
+      "bad_case_reason": ""
+    }
+  ]
+}

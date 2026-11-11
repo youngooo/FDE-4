@@ -1,0 +1,41 @@
+{
+  "status": "ok",
+  "intent": {
+    "metrics": [
+      "monthly_repeat_rate"
+    ],
+    "start": "2026-08-01",
+    "end": "2026-09-01",
+    "group_by": [],
+    "filters": []
+  },
+  "sql": "SELECT\n  CAST(SUM(CASE WHEN valid_order_count >= 2 THEN 1 ELSE 0 END) AS DOUBLE) / CAST(NULLIF(SUM(CASE WHEN valid_order_count >= 1 THEN 1 ELSE 0 END), 0) AS DOUBLE) AS monthly_repeat_rate\nFROM \"data\".\"main\".\"monthly_member_activity\" monthly_member_model_src_10000\nWHERE DATE_TRUNC('month', month_start) BETWEEN '2026-08-01' AND '2026-08-31'",
+  "columns": [
+    "monthly_repeat_rate"
+  ],
+  "rows": [
+    [
+      0.11803398501735794
+    ]
+  ],
+  "seconds": 0.083,
+  "units": {
+    "monthly_repeat_rate": "ratio"
+  },
+  "data_version": "qinghe-w04-v1.1",
+  "data_sha256": "a1b1323b26b4d380c6b0153586effc0bb47ba9a93a7a1d246e6b0c6ee53b0803",
+  "catalog_sha256": "11efcad6463608c0b78dd411f3e137d7de527b0c35bc2153d5e2bb588dbbfea8",
+  "coverage_notes": {
+    "source": "本次只含新 CRM 导出的会员、订单、会员卡、门店四个文件；旧收银系统消费记录未导出，小林工作账只用于对照核查，不导入查询库。",
+    "time_range": {
+      "start": "2024-09-01",
+      "end_exclusive": "2026-09-01"
+    },
+    "quarantined": {
+      "shop": 0,
+      "member": 3,
+      "order": 256,
+      "card": 299
+    }
+  }
+}
